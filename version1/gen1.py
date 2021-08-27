@@ -16,4 +16,8 @@ if gpus:
   except RuntimeError as e:
     print(e)
 
+# __________________________________________-
+%cd version1/
+!head -3 news-headlines.tsv
+# __________________________________________-
 
