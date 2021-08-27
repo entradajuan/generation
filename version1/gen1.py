@@ -21,3 +21,26 @@ if gpus:
 !head -3 news-headlines.tsv
 # __________________________________________-
 
+vocab = "abcdefghijklmnopqrstuvwxyz0123456789 -,;.!?:’’’/\|_@#$%ˆ&*˜‘+-=()[]{}' ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+chars = set(vocab)
+chars = sorted(chars)
+
+EOS = '<EOS>'
+UNK = "<UNK>"
+PAD = "<PAD>" 
+
+chars.append(EOS)
+chars.append(UNK)
+chars.insert(0, PAD)
+
+char2idx = {c:i for i,c in enumerate(chars)}
+print(char2idx[UNK])
+
+def char_idx(c):
+  if c in chars:
+    return char2idx[c]
+  return char2idx[UNK]
+
+
+
+  
