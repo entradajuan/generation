@@ -19,6 +19,8 @@ if gpus:
 # __________________________________________-
 %cd version1/
 !head -3 news-headlines.tsv
+
+# REMEMBER IMPORT THE DATASET FROM LOCAL FILESYSTEM!!
 # __________________________________________-
 
 vocab = "abcdefghijklmnopqrstuvwxyz0123456789 -,;.!?:’’’/\|_@#$%ˆ&*˜‘+-=()[]{}' ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -43,4 +45,3 @@ def char_idx(c):
 
 
 
-  
