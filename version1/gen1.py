@@ -72,3 +72,33 @@ print(data_in[0])
 print(data_out[0])
 print(len(data_in[0]) , '  ', len(data_out[0]))
 
+x = tf.data.Dataset.from_tensor_slices((data_in, data_out))
+
+def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
+  model = tf.keras.Sequential([#tf.keras.layers.Embedding(vocab_size, embedding_dim, mask_zero=True, batch_input_shape=[batch_size, None]),
+                              tf.keras.layers.Embedding(vocab_size, embedding_dim, mask_zero=True, input_length=len(data_in), batch_size= batch_size),
+                              tf.keras.layers.GRU(rnn_units, return_sequences=True, stateful=True, recurrent_initializer='glorot_uniform'),
+                              tf.keras.layers.Dense(vocab_size)
+                              ])
+  return model
+
+
+dropout = 0.2
+def build_model2(vocab_size, embedding_dim, rnn_units, batch_size):
+  model = tf.keras.Sequential([#Embedding(vocab_size, embedding_dim, mask_zero=True, batch_input_shape=[BATCH_SIZE, None] ),
+                               tf.keras.layers.Embedding(vocab_size, embedding_dim, mask_zero=True, input_length=len(data_in) ),
+                               tf.keras.layers.LSTM(units=rnn_units, return_sequences=True, dropout=dropout, kernel_initializer=tf.keras.initializers.he_normal() ),
+                               tf.keras.layers.TimeDistributed(tf.keras.layers.Dense(rnn_units, activation= 'relu')),
+                               tf.keras.layers.Dense(vocab_size)
+                               ])
+  return model
+
+vocab_size = len(vocab)
+embedding_dim = 75  
+rnn_units = 55
+batch_size = 64
+
+model = build_model(vocab_size, embedding_dim, rnn_units, batch_size)
+
+
+
