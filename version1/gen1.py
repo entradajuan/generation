@@ -1,6 +1,12 @@
 import tensorflow as tf
 import numpy as np
 import pandas as pd
+import csv
+import os
+import datetime
+import time
+import matplotlib.pyplot as plt
+
 print(tf.version)
 print(tf.__version__)
 
@@ -43,8 +49,6 @@ def char_idx(c):
   if c in chars:
     return char2idx[c]
   return char2idx[UNK]
-
-import csv
 
 data = []
 MAX_LEN = 100
@@ -100,5 +104,38 @@ batch_size = 64
 
 model = build_model(vocab_size, embedding_dim, rnn_units, batch_size)
 
+print(model.summary())
+loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+model.compile(optimizer = 'adam', loss = loss)
 
+
+dt = datetime.datetime.today().strftime("%Y-%b-%d-%H-%M-%S")
+checkpoint_dir = './training_checkpoints/'+ dt
+
+checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch}")
+
+checkpoint_callback=tf.keras.callbacks.ModelCheckpoint(
+    filepath=checkpoint_prefix,
+    save_weights_only=True)
+
+EPOCHS=5
+x_train = x.shuffle(100000, reshuffle_each_iteration=True
+                   ).batch(batch_size, drop_remainder=True)
+lr_decay = LearningRateScheduler(0.001, 4., EPOCHS, 10)
+start = time.time()
+#history = model.fit(x_train, epochs=EPOCHS, 
+#                    callbacks=[checkpoint_callback, lr_decay])
+history = model.fit(x_train, epochs=EPOCHS, 
+                    callbacks=[checkpoint_callback])
+print("Training time: ", time.time()- start)
+
+# Plot accuracies
+lossplot = "loss-" + dt + ".png"
+plt.plot(history.history['loss'])
+plt.title('model loss')
+plt.xlabel('epoch')
+plt.ylabel('loss')
+plt.savefig(lossplot)
+
+print("Saved loss to: ", lossplot)
 
