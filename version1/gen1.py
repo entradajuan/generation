@@ -98,9 +98,9 @@ def build_model2(vocab_size, embedding_dim, rnn_units, batch_size):
   return model
 
 vocab_size = len(vocab)
-embedding_dim = 75  
-rnn_units = 55
-batch_size = 64
+embedding_dim = 256  
+rnn_units = 1024
+batch_size = 128
 
 model = build_model(vocab_size, embedding_dim, rnn_units, batch_size)
 
