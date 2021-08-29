@@ -118,10 +118,10 @@ checkpoint_callback=tf.keras.callbacks.ModelCheckpoint(
     filepath=checkpoint_prefix,
     save_weights_only=True)
 
-EPOCHS=5
+EPOCHS=25
 x_train = x.shuffle(100000, reshuffle_each_iteration=True
                    ).batch(batch_size, drop_remainder=True)
-lr_decay = LearningRateScheduler(0.001, 4., EPOCHS, 10)
+#lr_decay = LearningRateScheduler(0.001, 4., EPOCHS, 10)
 start = time.time()
 #history = model.fit(x_train, epochs=EPOCHS, 
 #                    callbacks=[checkpoint_callback, lr_decay])
