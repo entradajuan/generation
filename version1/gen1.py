@@ -102,12 +102,21 @@ def build_model2(vocab_size, embedding_dim, rnn_units, batch_size):
                                ])
   return model
 
+def build_model3(vocab_size, embedding_dim, rnn_units, batch_size):
+  model = tf.keras.Sequential([Embedding(vocab_size, embedding_dim, mask_zero=True, batch_input_shape=[batch_size, None] ),
+                              tf.keras.layers.GRU(rnn_units, return_sequences=True, stateful=True, recurrent_initializer='glorot_uniform'),
+                              tf.keras.layers.dropout(0.1),
+                              tf.keras.layers.Dense(vocab_size)
+                               ])
+  return model
+
+
 vocab_size = len(vocab)
 embedding_dim = 256  
 rnn_units = 1024
 batch_size = 128
 
-model = build_model(vocab_size, embedding_dim, rnn_units, batch_size)
+model = build_model3(vocab_size, embedding_dim, rnn_units, batch_size)
 
 print(model.summary())
 loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
