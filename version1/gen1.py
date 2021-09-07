@@ -103,12 +103,14 @@ def build_model2(vocab_size, embedding_dim, rnn_units, batch_size):
   return model
 
 def build_model3(vocab_size, embedding_dim, rnn_units, batch_size):
-  model = tf.keras.Sequential([Embedding(vocab_size, embedding_dim, mask_zero=True, batch_input_shape=[batch_size, None] ),
+  model = tf.keras.Sequential([tf.keras.layers.Embedding(vocab_size, embedding_dim, mask_zero=True, batch_input_shape=[batch_size, None] ),
                               tf.keras.layers.GRU(rnn_units, return_sequences=True, stateful=True, recurrent_initializer='glorot_uniform'),
-                              tf.keras.layers.dropout(0.1),
+                              tf.keras.layers.Dropout(0.1),
                               tf.keras.layers.Dense(vocab_size)
                                ])
   return model
+
+
 
 
 vocab_size = len(vocab)
